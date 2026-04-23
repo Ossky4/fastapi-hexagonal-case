@@ -57,3 +57,19 @@ Las tres opciones son pequeñas, locales y compiten porque atacan el mismo hotsp
 - **PR1 (actual):** delimitación documental de ruta e hipótesis competitiva.
 - **PR2 (técnica, pequeña):** elegir **una** alternativa y aplicarla con intención única.
 - **PR3 (opcional):** segunda mejora pequeña solo si PR2 deja evidencia clara de valor incremental.
+
+## Cierre del caso tras ejecución de PR2 y PR3
+El caso **fastapi-hexagonal-case** aportó señal útil sobre una ruta profunda con alternativas pequeñas competitivas, con una decisión conservadora bien blindada y validación completa en el entorno disponible.
+
+### Resultado principal observado
+- El cierre quedó sustentado con validación íntegra, sin necesidad de una **PR4 mínima de soporte**.
+- Esto fortalece el caso como referencia comparativa entre dos tipos de cierre:
+  1. **Cierre con validación íntegra:** batería completa ejecutada en el entorno disponible, con cobertura suficiente para sostener el cierre sin iteraciones de soporte.
+  2. **Cierre con validación focalizada recuperada:** aceptación basada en recuperar únicamente el test objetivo o una fracción acotada de evidencias, dejando mayor dependencia de verificación posterior.
+
+### Distinción comparativa (nítida)
+- En este caso, la decisión de cierre se apoya en el primer tipo (**validación íntegra**) y por eso se declara explícitamente que no se abre PR4.
+- El segundo tipo (**validación focalizada recuperada**) se mantiene como contraste metodológico útil, pero no describe el resultado alcanzado aquí.
+
+### Lectura metodológica
+Cuando la delimitación inicial es clara y las PR técnicas preservan una intención única por iteración, el caso tiende a cerrar con menor arrastre de deuda táctica y sin extender la secuencia de PRs más allá de lo estrictamente necesario.
