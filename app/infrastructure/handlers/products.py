@@ -11,6 +11,15 @@ router = APIRouter(
     tags=['products']
 )
 
+
+def _product_entity_from_input(
+        product: ProductInput,
+        product_factory: ProductEntityFactory,
+        uid: str | None
+) -> ProductEntity:
+    name, description, price, stock, image = product.__dict__.values()
+    return product_factory.create(uid, name, description, price, stock, image)
+
 @router.get('/', response_model=List[ProductOutput])
 @inject
 def get_catalog(product_services: ProductService = Depends(Provide[Container.product_services])) -> List[dict]:
@@ -30,8 +39,7 @@ def register_product(
         product_factory: ProductEntityFactory = Depends(Provide[Container.product_factory]),
         product_services: ProductService = Depends(Provide[Container.product_services])
 ) -> dict:
-    name, description, price, stock, image = product.__dict__.values()
-    product_entity: ProductEntity = product_factory.create(None, name, description, price, stock, image)
+    product_entity: ProductEntity = _product_entity_from_input(product, product_factory, None)
     response: ProductEntity = product_services.register_product(product_entity)
     return response.__dict__
 
@@ -43,7 +51,6 @@ def update_product(
         product_factory: ProductEntityFactory = Depends(Provide[Container.product_factory]),
         product_services: ProductService = Depends(Provide[Container.product_services])
 ) -> dict:
-    name, description, price, stock, image = product.__dict__.values()
-    product_entity: ProductEntity = product_factory.create(id, name, description, price, stock, image)
+    product_entity: ProductEntity = _product_entity_from_input(product, product_factory, id)
     response: ProductEntity = product_services.update_product(product_entity)
     return response.__dict__
